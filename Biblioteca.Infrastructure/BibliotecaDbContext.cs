@@ -15,7 +15,6 @@ namespace Biblioteca.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configurações de mapeamento e outras configurações de entidade podem ser definidas aqui.
         }
     }
 }

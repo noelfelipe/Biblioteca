@@ -18,6 +18,13 @@ namespace MinhaApi.Controllers
             _libraryService = libraryService;
         }
 
+        [HttpGet]
+        public IActionResult GetDateTime()
+        {
+            var currentDateTime = DateTime.UtcNow;
+            return Ok(currentDateTime);
+        }
+
         // Endpoint para obter todos os livros
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Livro>>> ObterTodosLivros()
@@ -33,7 +40,7 @@ namespace MinhaApi.Controllers
             var livro = await _libraryService.ObterLivroPorIdAsync(id);
             if (livro == null)
             {
-                return NotFound(); // Livro n„o encontrado
+                return NotFound(); // Livro n√£o encontrado
             }
             return Ok(livro);
         }
@@ -44,7 +51,7 @@ namespace MinhaApi.Controllers
         {
             if (livro == null)
             {
-                return BadRequest(); // RequisiÁ„o inv·lida
+                return BadRequest(); // Requisi√ß√£o inv√°lida
             }
 
             await _libraryService.AdicionarLivroAsync(livro);
@@ -57,17 +64,17 @@ namespace MinhaApi.Controllers
         {
             if (livroAtualizado == null || id != livroAtualizado.Id)
             {
-                return BadRequest(); // RequisiÁ„o inv·lida
+                return BadRequest(); // Requisi√ß√£o inv√°lida
             }
 
             var livroExistente = await _libraryService.ObterLivroPorIdAsync(id);
             if (livroExistente == null)
             {
-                return NotFound(); // Livro n„o encontrado
+                return NotFound(); // Livro n√£o encontrado
             }
 
             await _libraryService.AtualizarLivroAsync(livroAtualizado);
-            return NoContent(); // Sucesso, sem conte˙do
+            return NoContent(); // Sucesso, sem conte√∫do
         }
 
         // Endpoint para excluir um livro
@@ -77,11 +84,11 @@ namespace MinhaApi.Controllers
             var livro = await _libraryService.ObterLivroPorIdAsync(id);
             if (livro == null)
             {
-                return NotFound(); // Livro n„o encontrado
+                return NotFound(); // Livro n√£o encontrado
             }
 
             await _libraryService.ExcluirLivroAsync(id);
-            return NoContent(); // Sucesso, sem conte˙do
+            return NoContent(); // Sucesso, sem conte√∫do
         }
     }
 }

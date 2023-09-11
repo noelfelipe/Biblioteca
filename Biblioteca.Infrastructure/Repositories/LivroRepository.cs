@@ -1,4 +1,4 @@
-﻿using Biblioteca.Domain;
+using Biblioteca.Domain;
 using Biblioteca.Domain.Intefaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -46,6 +46,14 @@ namespace Biblioteca.Infrastructure.Repositories
                 _dbContext.Livros.Remove(livroExistente);
                 await _dbContext.SaveChangesAsync();
             }
+        }
+
+        public async Task<IEnumerable<Livro>> ObterPaginadoAsync(int pagina = 1, int tamanhoPagina = 50)
+        {
+            return await _dbContext.Livros
+                .Skip((pagina - 1) * tamanhoPagina)
+                .Take(tamanhoPagina)
+                .ToListAsync();
         }
     }
 }

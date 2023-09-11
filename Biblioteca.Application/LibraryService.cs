@@ -6,36 +6,37 @@ namespace Biblioteca.Application
 {
     public class LibraryService : ILibraryService
     {
-        private readonly ILivroRepository _livroRepository;
+  
+            private readonly ILivroRepository _livroRepository;
 
-        public LibraryService(ILivroRepository livroRepository)
-        {
-            _livroRepository = livroRepository;
-        }
+            public LibraryService(ILivroRepository livroRepository)
+            {
+                _livroRepository = livroRepository;
+            }
 
-        public async Task<IEnumerable<Livro>> ObterTodosLivros()
-        {
-            return await _livroRepository.ObterTodos();
-        }
+            public async Task<IEnumerable<Livro>> ObterTodosLivrosAsync()
+            {
+                return await _livroRepository.ObterTodosAsync();
+            }
 
-        public async Task<Livro> ObterLivroPorId(int id)
-        {
-            return await _livroRepository.ObterPorId(id);
-        }
+            public async Task<Livro> ObterLivroPorIdAsync(int id)
+            {
+                return await _livroRepository.ObterPorIdAsync(id);
+            }
 
-        public async Task AdicionarLivro(Livro livro)
-        {
-            await _livroRepository.Adicionar(livro);
-        }
+            public async Task AdicionarLivroAsync(Livro livro)
+            {
+                await _livroRepository.AdicionarAsync(livro);
+            }
 
-        public async Task AtualizarLivro(Livro livro)
-        {
-            await _livroRepository.Atualizar(livro);
-        }
+            public async Task AtualizarLivroAsync(Livro livro)
+            {
+                await _livroRepository.AtualizarAsync(livro);
+            }
 
-        public async Task ExcluirLivro(int id)
-        {
-            await _livroRepository.Excluir(id);
-        }
+            public async Task ExcluirLivroAsync(int id)
+            {
+                await _livroRepository.ExcluirAsync(id);
+            }
     }
 }

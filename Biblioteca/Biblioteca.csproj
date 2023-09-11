@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Biblioteca.Domain\Biblioteca.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>

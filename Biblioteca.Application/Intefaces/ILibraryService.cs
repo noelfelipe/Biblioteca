@@ -4,10 +4,10 @@ namespace Biblioteca.Application.Intefaces
 {
     public interface ILibraryService
     {
-        Task AdicionarLivro(Livro livro);
-        Task AtualizarLivro(Livro livroAtualizado);
-        Task ExcluirLivro(int id);
-        Task<Livro> ObterLivroPorId(int id);
-        Task<IEnumerable<Livro>> ObterTodosLivros();
+        Task AdicionarLivroAsync(Livro livro);
+        Task AtualizarLivroAsync(Livro livroAtualizado);
+        Task ExcluirLivroAsync(int id);
+        Task<Livro> ObterLivroPorIdAsync(int id);
+        Task<IEnumerable<Livro>> ObterTodosLivrosAsync();
     }
 }

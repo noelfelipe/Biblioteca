@@ -45,6 +45,15 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<BibliotecaDbContext>();
+
+    // Aplicar migrações pendentes
+    dbContext.Database.Migrate();
+}
+
 app.MapControllers();
 
 app.Run();

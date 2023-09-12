@@ -1,4 +1,4 @@
-﻿using Biblioteca.Domain;
+using Biblioteca.Domain;
 
 namespace Biblioteca.Application.Intefaces
 {
@@ -9,5 +9,7 @@ namespace Biblioteca.Application.Intefaces
         Task ExcluirLivroAsync(int id);
         Task<Livro> ObterLivroPorIdAsync(int id);
         Task<IEnumerable<Livro>> ObterTodosLivrosAsync();
+
+        Task<IEnumerable<Livro>> ObterPaginadoAsync(int pagina, int tamanhoPagina);
     }
 }

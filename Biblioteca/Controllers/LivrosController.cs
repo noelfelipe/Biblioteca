@@ -90,7 +90,7 @@ namespace MinhaApi.Controllers
             await _libraryService.ExcluirLivroAsync(id);
             return NoContent(); // Sucesso, sem conteúdo
         }
-
+        [HttpGet("{pagina}")]
         public async Task<ActionResult<IEnumerable<Livro>>> ObterLivrosPaginado(int pagina)
         {
             var livros = await _libraryService.ObterPaginadoAsync(pagina, 50);

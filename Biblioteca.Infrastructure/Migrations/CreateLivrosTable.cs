@@ -1,11 +1,9 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
 
 namespace Biblioteca.Infrastructure.Migrations
 {
-    public partial class Biblioteca : Migration
+    public partial class CreateLivrosTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,12 +11,11 @@ namespace Biblioteca.Infrastructure.Migrations
                 name: "Livros",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Titulo = table.Column<string>(type: "TEXT", nullable: false),
-                    Autor = table.Column<string>(type: "TEXT", nullable: false),
-                    DataPublicacao = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ISBN = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
+                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Autor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DataPublicacao = table.Column<DateTime>(nullable: false),
+                    ISBN = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

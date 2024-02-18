@@ -19,24 +19,24 @@ namespace Biblioteca.Application
             return await _livroRepository.ObterTodosAsync();
         }
 
-        public async Task<Livro> ObterLivroPorIdAsync(int id)
+        public async Task<Livro> ObterLivroPorIdAsync(Guid id)
         {
             return await _livroRepository.ObterPorIdAsync(id);
         }
 
-        public async Task AdicionarLivroAsync(Livro livro)
+        public async Task<Guid> AdicionarLivroAsync(Livro livro)
         {
-            await _livroRepository.AdicionarAsync(livro);
+            return await _livroRepository.AdicionarAsync(livro);
         }
 
-        public async Task AtualizarLivroAsync(Livro livro)
+        public async Task<bool> AtualizarLivroAsync(Livro livro)
         {
-            await _livroRepository.AtualizarAsync(livro);
+            return await _livroRepository.AtualizarAsync(livro);
         }
 
-        public async Task ExcluirLivroAsync(int id)
+        public async Task<bool> ExcluirLivroAsync(Guid id)
         {
-            await _livroRepository.ExcluirAsync(id);
+            return await _livroRepository.ExcluirAsync(id);
         }
 
         public async Task<IEnumerable<Livro>> ObterPaginadoAsync(int pagina, int tamanhoPagina)

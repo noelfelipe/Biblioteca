@@ -1,9 +1,6 @@
 using Biblioteca.Domain;
 using Biblioteca.Domain.Intefaces;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Biblioteca.Infrastructure.Repositories
 {
@@ -21,31 +18,50 @@ namespace Biblioteca.Infrastructure.Repositories
             return await _dbContext.Livros.ToListAsync();
         }
 
-        public async Task<Livro> ObterPorIdAsync(int id)
+        public async Task<Livro> ObterPorIdAsync(Guid id)
         {
             return await _dbContext.Livros.FirstOrDefaultAsync(l => l.Id == id);
         }
 
-        public async Task AdicionarAsync(Livro livro)
+        public async Task<Guid> AdicionarAsync(Livro livro)
         {
             await _dbContext.Livros.AddAsync(livro);
             await _dbContext.SaveChangesAsync();
+            return livro.Id;
         }
 
-        public async Task AtualizarAsync(Livro livro)
+        public async Task<bool> AtualizarAsync(Livro livro)
         {
-            _dbContext.Entry(livro).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-        }
-
-        public async Task ExcluirAsync(int id)
-        {
-            var livroExistente = await _dbContext.Livros.FirstOrDefaultAsync(l => l.Id == id);
-            if (livroExistente != null)
             {
-                _dbContext.Livros.Remove(livroExistente);
-                await _dbContext.SaveChangesAsync();
+                var livroExistente = await _dbContext.Livros.FindAsync(livro.Id);
+                if (livroExistente == null)
+                {
+                    return false;
+                }
+
+                _dbContext.Entry(livroExistente).CurrentValues.SetValues(livro);
+                try
+                {
+                    await _dbContext.SaveChangesAsync();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
+        }
+        public async Task<bool> ExcluirAsync(Guid id)
+        {
+            var livro = await _dbContext.Livros.FindAsync(id);
+            if (livro == null)
+            {
+                return false;
+            }
+
+            _dbContext.Livros.Remove(livro);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
 
         public async Task<IEnumerable<Livro>> ObterPaginadoAsync(int pagina = 1, int tamanhoPagina = 50)

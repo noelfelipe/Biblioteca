@@ -1,11 +1,9 @@
-using Biblioteca.Application.Intefaces;
 using Biblioteca.Domain;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks; // Adicione esta linha
+using Biblioteca.Application.DTOs;
+using Biblioteca.Application.Intefaces;
 
-namespace MinhaApi.Controllers
+namespace Biblioteca.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -18,83 +16,93 @@ namespace MinhaApi.Controllers
             _libraryService = libraryService;
         }
 
+        // GET: api/Livros
         [HttpGet]
-        public IActionResult GetDateTime()
-        {
-            var currentDateTime = DateTime.UtcNow;
-            return Ok(currentDateTime);
-        }
-
-        // Endpoint para obter todos os livros
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Livro>>> ObterTodosLivros()
+        public async Task<IActionResult> GetLivros()
         {
             var livros = await _libraryService.ObterTodosLivrosAsync();
             return Ok(livros);
         }
 
-        // Endpoint para obter um livro por ID
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Livro>> ObterLivroPorId(int id)
+        // GET: api/Livros/5
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetLivro(Guid id)
         {
             var livro = await _libraryService.ObterLivroPorIdAsync(id);
             if (livro == null)
             {
-                return NotFound(); // Livro não encontrado
+                return NotFound();
             }
             return Ok(livro);
         }
 
-        // Endpoint para adicionar um novo livro
+        // POST: api/Livros
         [HttpPost]
-        public async Task<ActionResult<Livro>> AdicionarLivro([FromBody] Livro livro)
+        public async Task<IActionResult> PostLivro(CreateLivroDto createLivroDto)
         {
-            if (livro == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest(); // Requisição inválida
+                return BadRequest(ModelState);
             }
+
+            var livro = new Livro
+            {
+                Titulo = createLivroDto.Titulo,
+                Autor = createLivroDto.Autor,
+                DataPublicacao = createLivroDto.DataPublicacao,
+                Isbn = createLivroDto.ISBN
+            };
 
             await _libraryService.AdicionarLivroAsync(livro);
-            return CreatedAtAction(nameof(ObterLivroPorId), new { id = livro.Id }, livro);
+
+            return CreatedAtAction(nameof(GetLivro), new { id = livro.Id }, livro);
         }
 
-        // Endpoint para atualizar um livro existente
-        [HttpPut("{id}")]
-        public async Task<IActionResult> AtualizarLivro(int id, [FromBody] Livro livroAtualizado)
+        // PUT: api/Livros/5
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> PutLivro(Guid id, UpdateLivroDto updateLivroDto)
         {
-            if (livroAtualizado == null || id != livroAtualizado.Id)
+            if (id != updateLivroDto.Id)
             {
-                return BadRequest(); // Requisição inválida
+                return BadRequest("ID mismatch");
             }
 
-            var livroExistente = await _libraryService.ObterLivroPorIdAsync(id);
-            if (livroExistente == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound(); // Livro não encontrado
+                return BadRequest(ModelState);
             }
 
-            await _libraryService.AtualizarLivroAsync(livroAtualizado);
-            return NoContent(); // Sucesso, sem conteúdo
+            var livro = new Livro
+            {
+                Id = updateLivroDto.Id,
+                Titulo = updateLivroDto.Titulo,
+                Autor = updateLivroDto.Autor,
+                DataPublicacao = updateLivroDto.DataPublicacao,
+                Isbn = updateLivroDto.ISBN
+            };
+
+            var resultado = await _libraryService.AtualizarLivroAsync(livro);
+
+            if (!resultado)
+            {
+                return NotFound("Livro não encontrado");
+            }
+
+            return NoContent();
         }
 
-        // Endpoint para excluir um livro
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> ExcluirLivro(int id)
+        // DELETE: api/Livros/5
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteLivro(Guid id)
         {
-            var livro = await _libraryService.ObterLivroPorIdAsync(id);
-            if (livro == null)
+            var resultado = await _libraryService.ExcluirLivroAsync(id);
+
+            if (!resultado)
             {
-                return NotFound(); // Livro não encontrado
+                return NotFound("Livro não encontrado");
             }
 
-            await _libraryService.ExcluirLivroAsync(id);
-            return NoContent(); // Sucesso, sem conteúdo
-        }
-        [HttpGet("{pagina}")]
-        public async Task<ActionResult<IEnumerable<Livro>>> ObterLivrosPaginado(int pagina)
-        {
-            var livros = await _libraryService.ObterPaginadoAsync(pagina, 50);
-            return Ok(livros);
+            return NoContent();
         }
     }
 }

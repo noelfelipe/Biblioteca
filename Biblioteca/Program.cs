@@ -10,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -19,6 +18,8 @@ builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 
 
 var databaseType = builder.Configuration.GetSection("DatabaseType").Value;
+
+
 if (databaseType == "SQLite")
 {
     builder.Services.AddDbContext<BibliotecaDbContext>(options =>
@@ -33,7 +34,7 @@ else
 
 
 var app = builder.Build();
-
+app.UseDeveloperExceptionPage();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

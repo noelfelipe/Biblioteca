@@ -36,6 +36,7 @@ Para adicionar um novo livro, você pode usar o seguinte exemplo de JSON no endp
   "isbn": "978-0-123456-47-2"
 }
 
+```
 ```json
 {
   "titulo": "O Nome do Vento",
@@ -43,8 +44,7 @@ Para adicionar um novo livro, você pode usar o seguinte exemplo de JSON no endp
   "dataPublicacao": "2007-03-27T00:00:00",
   "isbn": "978-0-123456-47-2"
 }
-Para adicionar um livro de não-ficção:
-
+```
 ```json
 {
   "titulo": "Sapiens: Uma Breve História da Humanidade",
@@ -52,6 +52,7 @@ Para adicionar um livro de não-ficção:
   "dataPublicacao": "2011-01-01T00:00:00",
   "isbn": "978-1-234567-89-7"
 }
+```
 Nota: Certifique-se de ajustar as datas de publicação e os números ISBN para valores reais e válidos conforme necessário.
 
 Contato

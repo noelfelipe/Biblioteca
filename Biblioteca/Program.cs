@@ -13,6 +13,13 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ILibraryService, LibraryService>();
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin",
+        builder => builder.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod());
+});
 
 var databaseType = builder.Configuration.GetSection("DatabaseType").Value;
 
@@ -32,6 +39,7 @@ else
 
 var app = builder.Build();
 app.UseDeveloperExceptionPage();
+app.UseCors("AllowOrigin");
 
 using (var scope = app.Services.CreateScope())
 {

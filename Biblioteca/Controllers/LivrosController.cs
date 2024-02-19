@@ -45,7 +45,7 @@ namespace Biblioteca.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            //é possivel tbm utilizar automapper mas como a solução seria simples optei por não utilizar
+            //é possivel utilizar automapper mas como a solução seria simples optei por não utilizar
 
             var livro = new Livro
             {
@@ -69,6 +69,7 @@ namespace Biblioteca.API.Controllers
                 return BadRequest(ModelState);
             }
 
+            //é possivel utilizar automapper mas como a solução seria simples optei por não utilizar
             var livro = new Livro
             {
                 Id = id,

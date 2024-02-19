@@ -7,8 +7,6 @@ using Biblioteca.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -16,25 +14,43 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ILibraryService, LibraryService>();
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 
-
 var databaseType = builder.Configuration.GetSection("DatabaseType").Value;
-
 
 if (databaseType == "SQLite")
 {
     builder.Services.AddDbContext<BibliotecaDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection")));
+        options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection")));
 }
 else
 {
     builder.Services.AddDbContext<BibliotecaDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLiteConnection")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SQLiteConnection")));
 }
-
-
 
 var app = builder.Build();
 app.UseDeveloperExceptionPage();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        // Obter o contexto do banco de dados
+        var dbContext = services.GetRequiredService<BibliotecaDbContext>();
+
+        // Aplicar migrações pendentes para atualizar o banco de dados
+        dbContext.Database.Migrate();
+
+        // Garantir que as tabelas sejam criadas
+        dbContext.Database.EnsureCreated();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Ocorreu um erro ao criar ou migrar o banco de dados.");
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -43,16 +59,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var dbContext = services.GetRequiredService<BibliotecaDbContext>();
-    dbContext.Database.Migrate();
-}
-
 app.MapControllers();
-
 app.Run();

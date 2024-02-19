@@ -13,8 +13,17 @@ namespace Biblioteca.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
+            // Definir a configuração da tabela Livros aqui
+            modelBuilder.Entity<Livro>(entity =>
+            {
+                entity.ToTable("Livros");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd().IsRequired().HasDefaultValueSql("NEWID()");
+                entity.Property(e => e.Titulo).IsRequired();
+                entity.Property(e => e.Autor).IsRequired();
+                entity.Property(e => e.DataPublicacao).IsRequired();
+                entity.Property(e => e.Isbn).IsRequired();
+                entity.HasKey(e => e.Id).HasName("PK_Livros");
+            });
         }
     }
 }

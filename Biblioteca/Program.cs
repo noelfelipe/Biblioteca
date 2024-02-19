@@ -19,12 +19,15 @@ var databaseType = builder.Configuration.GetSection("DatabaseType").Value;
 if (databaseType == "SQLite")
 {
     builder.Services.AddDbContext<BibliotecaDbContext>(options =>
-        options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection")));
+        options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection"),
+        options => options.MigrationsAssembly("Biblioteca.Infrastructure")));
 }
 else
 {
     builder.Services.AddDbContext<BibliotecaDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("SQLiteConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("SQLiteConnection"),
+        options => options.MigrationsAssembly("Biblioteca.Infrastructure")));
 }
 
 var app = builder.Build();
@@ -33,6 +36,7 @@ app.UseDeveloperExceptionPage();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+
     try
     {
         var dbContext = services.GetRequiredService<BibliotecaDbContext>();

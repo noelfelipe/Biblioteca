@@ -1,7 +1,10 @@
+using System.Text.Json.Serialization;
+
 namespace Biblioteca.Application.DTOs
 {
     public class UpdateLivroDto
     {
+        [JsonIgnore]
         public Guid Id { get; set; }
         public string Titulo { get; set; }
         public string Autor { get; set; }

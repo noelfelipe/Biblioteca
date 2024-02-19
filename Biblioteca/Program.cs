@@ -35,13 +35,10 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        // Obter o contexto do banco de dados
         var dbContext = services.GetRequiredService<BibliotecaDbContext>();
 
-        // Aplicar migrações pendentes para atualizar o banco de dados
         dbContext.Database.Migrate();
 
-        // Garantir que as tabelas sejam criadas
         dbContext.Database.EnsureCreated();
     }
     catch (Exception ex)

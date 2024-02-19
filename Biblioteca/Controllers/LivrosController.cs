@@ -57,18 +57,13 @@ namespace Biblioteca.API.Controllers
 
             await _libraryService.AdicionarLivroAsync(livro);
 
-            return CreatedAtAction(nameof(GetLivro), new { id = livro.Id }, livro);
+            return Ok(CreatedAtAction(nameof(GetLivro), new { id = livro.Id }, livro));
         }
 
         // PUT: api/Livros/5
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> PutLivro(Guid id, UpdateLivroDto updateLivroDto)
         {
-            if (id != updateLivroDto.Id)
-            {
-                return BadRequest("ID mismatch");
-            }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -76,7 +71,7 @@ namespace Biblioteca.API.Controllers
 
             var livro = new Livro
             {
-                Id = updateLivroDto.Id,
+                Id = id,
                 Titulo = updateLivroDto.Titulo,
                 Autor = updateLivroDto.Autor,
                 DataPublicacao = updateLivroDto.DataPublicacao,
@@ -90,7 +85,7 @@ namespace Biblioteca.API.Controllers
                 return NotFound("Livro não encontrado");
             }
 
-            return NoContent();
+            return Ok("Livro Atualizado");
         }
 
         // DELETE: api/Livros/5
@@ -104,7 +99,7 @@ namespace Biblioteca.API.Controllers
                 return NotFound("Livro não encontrado");
             }
 
-            return NoContent();
+            return Ok("Livro Deletado");
         }
     }
 }

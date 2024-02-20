@@ -25,8 +25,8 @@ export class BookCreateComponent implements OnInit {
   BookCreate(isValid: any) {
     this.isSubmitted = true;
     if (isValid) {
-      this.httpProvider.saveBook(this.bookCreate).subscribe(async data => {
-        if (data != null && data.body != null) {
+      this.httpProvider.saveBook(this.bookCreate).subscribe(
+        async (data: any) => {
           if (data != null && data.body != null) {
             var resultData = data.body;
             if (resultData != null && resultData.isSuccess) {
@@ -36,17 +36,15 @@ export class BookCreateComponent implements OnInit {
               }, 500);
             }
           }
+        },
+        async (error: any) => {
+          // Use error.error.message to access the error message from the server
+          this.toastr.error(error.error.errors.ISBN || 'An unexpected error occurred');
+          setTimeout(() => { }, 500);
         }
-      },
-        async error => {
-          this.toastr.error(error.message);
-          setTimeout(() => {
-            this.router.navigate(['/Home']);
-          }, 500);
-        });
+      );
     }
   }
-
 }
 
 export class BookForm {

@@ -1,0 +1,92 @@
+<div class="container-xl">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-6">
+            <h4><b>Update Book</b></h4>
+          </div>
+          <div class="col-sm-6">
+            <a href="#" routerLink="/Home" class="btn btn-success back"><i class='fas fa-arrow-circle-left'></i> &nbsp;Back</a>
+          </div>
+        </div>
+      </div>
+      <form #bookForm="ngForm">
+        <div class="table-content">
+
+          <!-- Add similar form fields for Autor, DataPublicacao, and ISBN -->
+          <div class="form-group p-10 row">
+            <div class="col-sm-3">
+              <label for="Titulo" class="p-t-b-10">Titulo<span class="requiredStar">*</span></label>
+            </div>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="Titulo" required maxlength="255"
+                [(ngModel)]="editBookForm.Titulo" name="Titulo" #Titulo="ngModel">
+              <div *ngIf="Titulo.errors && isSubmitted" class="alert alert-danger validationError">
+                <div [hidden]="!Titulo.errors?.['required']">
+                  Titulo é necessario
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Add similar form fields for Autor, DataPublicacao, and ISBN -->
+          
+          <!-- Add similar form fields for Autor, DataPublicacao, and ISBN -->
+          <div class="form-group p-10 row">
+            <div class="col-sm-3">
+              <label for="Autor" class="p-t-b-10">Autor<span class="requiredStar">*</span></label>
+            </div>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="Autor" required maxlength="255"
+                [(ngModel)]="editBookForm.Autor" name="Autor" #Autor="ngModel">
+              <div *ngIf="Autor.errors && isSubmitted" class="alert alert-danger validationError">
+                <div [hidden]="!Autor.errors?.['required']">
+                  Autor é necessario
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Add similar form fields for Autor, DataPublicacao, and ISBN -->
+          
+          <!-- Add similar form fields for Autor, DataPublicacao, and ISBN -->
+          <div class="form-group p-10 row">
+            <div class="col-sm-3">
+              <label for="DataPublicacao" class="p-t-b-10">Data de Publicação<span class="requiredStar">*</span></label>
+            </div>
+            <div class="col-sm-9">
+              <input type="date" class="form-control" id="DataPublicacao" required
+                    [(ngModel)]="editBookForm.DataPublicacao" name="DataPublicacao" #DataPublicacao="ngModel">
+              <!-- Update validation messages accordingly -->
+              <div *ngIf="DataPublicacao.errors && isSubmitted" class="alert alert-danger validationError">
+                <div [hidden]="!DataPublicacao.errors?.['required']">
+                  Publication Date is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Add similar form fields for Autor, DataPublicacao, and ISBN -->
+
+          <!-- Add similar form fields for Autor, DataPublicacao, and ISBN -->
+          <div class="form-group p-10 row">
+            <div class="col-sm-3">
+              <label for="ISBN" class="p-t-b-10">ISBN<span class="requiredStar">*</span></label>
+            </div>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="ISBN" required maxlength="255"
+                [(ngModel)]="editBookForm.ISBN" name="ISBN" #ISBN="ngModel">
+              <div *ngIf="ISBN.errors && isSubmitted" class="alert alert-danger validationError">
+                <div [hidden]="!ISBN.errors?.['required']">
+                  ISBN is required
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Add similar form fields for Autor, DataPublicacao, and ISBN -->
+        </div>
+        <div class="table-footer">
+          <button class="btn btn-success" (click)="EditBook(bookForm.form.valid)">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="container-xl">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-6">
+            <h4><b>View Book</b></h4>
+          </div>
+          <div class="col-sm-6">
+            <a href="#" routerLink="/Home" class="btn btn-success back"><i class='fas fa-arrow-circle-left'></i> &nbsp;Back</a>
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped table-hover table-bordered table-content">
+        <tbody>
+          <tr>
+            <td>
+              <label><b>Titulo</b></label>
+            </td>
+            <td>
+              <span>{{ bookDetail.titulo }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label><b>Author</b></label>
+            </td>
+            <td>
+              <span>{{ bookDetail.author }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label><b>Publication Date</b></label>
+            </td>
+            <td>
+              <span>{{ bookDetail.publicationDate }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label><b>ISBN</b></label>
+            </td>
+            <td>
+              <span>{{ bookDetail.isbn }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

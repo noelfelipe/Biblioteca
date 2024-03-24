@@ -13,7 +13,6 @@ namespace Biblioteca.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Definir a configuração da tabela Livros aqui
             modelBuilder.Entity<Livro>(entity =>
             {
                 entity.ToTable("Livros");
